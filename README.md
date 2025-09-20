@@ -1,48 +1,47 @@
-Winograd Convolution Performance Analysis
-This repository contains implementations and performance analysis of Winograd convolution algorithms on CPU and GPU platforms, as described in the seminar paper "Exploring CPU and GPU Implementations of Winograd Convolution Algorithms for EdgeAI Inference".
+# Winograd Convolution Performance Analysis
 
-📄 Project Overview
+This repository contains implementations and performance analysis of Winograd convolution algorithms on CPU and GPU platforms, as described in the seminar paper **"Exploring CPU and GPU Implementations of Winograd Convolution Algorithms for EdgeAI Inference"**.
+
+## 📄 Project Overview
+
 The project investigates the performance of Winograd convolution compared to standard direct convolution methods, focusing on:
-
-Latency (execution time)
-
-Throughput (GFLOPs)
-
-Power consumption (Watts)
+- **Latency** (execution time)
+- **Throughput** (GFLOPs)
+- **Power consumption** (Watts)
 
 Experiments were conducted on both CPU (using TVM) and GPU (using cuDNN) platforms using the CIFAR-100 dataset.
 
-📁 Repository Structure
-text
+## 📁 Repository Structure
+
+```
 ├── 4dtensor_to_winograd.cu      # GPU implementation using Winograd convolution (cuDNN)
 ├── direct_convolution_GPU.cu    # GPU implementation using direct convolution (cuDNN)
 ├── TVM_final.py                 # CPU implementation using TVM (Winograd + Standard)
 ├── Winograd convolution report.pdf     # Seminar paper with detailed analysis
 └── README.md                    # This file
-🛠️ Requirements
-GPU Implementation (CUDA/cuDNN)
-NVIDIA GPU with CUDA support
+```
 
-CUDA Toolkit
+## 🛠️ Requirements
 
-cuDNN library
+### GPU Implementation (CUDA/cuDNN)
+- NVIDIA GPU with CUDA support
+- CUDA Toolkit
+- cuDNN library
+- NVML for power monitoring
 
-NVML for power monitoring
+### CPU Implementation (TVM)
+- Python 3.x
+- TVM with LLVM backend
+- NumPy
+- psutil
 
-CPU Implementation (TVM)
-Python 3.x
+## 🚀 How to Run
 
-TVM with LLVM backend
+### GPU Programs (Winograd vs Direct Convolution)
 
-NumPy
-
-psutil
-
-🚀 How to Run
-GPU Programs (Winograd vs Direct Convolution)
 Compile and run the CUDA programs with:
 
-bash
+```bash
 # Compile
 nvcc -o winograd_conv 4dtensor_to_winograd.cu -lcudnn -lnvml
 nvcc -o direct_conv direct_convolution_GPU.cu -lcudnn -lnvml
@@ -54,28 +53,29 @@ nvcc -o direct_conv direct_convolution_GPU.cu -lcudnn -lnvml
 # Run with custom batch size
 ./winograd_conv --batch 128
 ./direct_conv --batch 128
-CPU Program (TVM Implementation)
+```
+
+### CPU Program (TVM Implementation)
+
 Run the Python script:
 
-bash
+```bash
 python TVM_final.py
-📊 Key Findings
+```
+
+## 📊 Key Findings
+
 From the seminar paper and implementations:
 
-Winograd convolution reduces arithmetic operations by approximately 2.25-3× compared to direct convolution for 3×3 kernels
+1. **Winograd convolution reduces arithmetic operations** by approximately 2.25-3× compared to direct convolution for 3×3 kernels
+2. **GPU implementations** generally show higher throughput but also higher power consumption
+3. **CPU implementations** using TVM demonstrate the flexibility of Winograd optimization on general-purpose hardware
+4. The **trade-off between performance and power consumption** is crucial for EdgeAI applications
 
-GPU implementations generally show higher throughput but also higher power consumption
+## 📈 Performance Metrics
 
-CPU implementations using TVM demonstrate the flexibility of Winograd optimization on general-purpose hardware
-
-The trade-off between performance and power consumption is crucial for EdgeAI applications
-
-📈 Performance Metrics
 The implementations measure and report:
-
-Latency: Execution time per convolution operation (ms)
-
-Throughput: Computational throughput (GFLOPs/GOPS)
-
-Power consumption: Average power draw during execution (Watts)
+- **Latency**: Execution time per convolution operation (ms)
+- **Throughput**: Computational throughput (GFLOPs/GOPS)
+- **Power consumption**: Average power draw during execution (Watts)
 
